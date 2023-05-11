@@ -22,9 +22,29 @@ else
     echo 'File not found'
 fi
 
-# Copy files from student-submission directory to the grading-area directory
-cp -r student-submission grading-area
+# Change back to parent directory
+cd ../
 
+# Copy files from student-submission directory to the grading-area directory
+cp -r student-submission/ListExamples.java grading-area
+cp -r lib grading-area
+cp TestListExamples.java grading-area
+
+# Check to make sure everything is moved into grading-area
+ls grading-area
+
+# Change back to grading-area and compile the java files
+cd grading-area
+javac -cp ".;lib/hamcrest-core-1.3.jar;lib/junit-4.13.2.jar" ListExamples.java TestListExamples.java
+java -cp ".;lib/junit-4.13.2.jar;lib/hamcrest-core-1.3.jar" org.junit.runner.JUnitCore TestListExamples
+
+# Check if tests passed or failed, report error code
+if [[ $? -eq 0 ]]
+then
+    echo "Tests passed!"
+else
+    echo "Test failed!"
+fi
 
 # Draw a picture/take notes on the directory structure that's set up after
 # getting to this point
